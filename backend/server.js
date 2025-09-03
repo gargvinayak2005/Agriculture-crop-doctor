@@ -39,7 +39,18 @@ mongoose.connect(MONGODB_URI, {
 
 // Basic route
 app.get('/', (req, res) => {
-    res.json({ message: 'Backend is running!' });
+    console.log('Root route accessed');
+    res.json({ message: 'Backend is running!', timestamp: new Date().toISOString() });
+});
+
+// Debug route to check CORS
+app.get('/api/debug', (req, res) => {
+    console.log('Debug route accessed');
+    res.json({ 
+        message: 'Debug route working', 
+        origin: req.headers.origin,
+        timestamp: new Date().toISOString()
+    });
 });
 
 // API routes
@@ -52,6 +63,13 @@ app.use((err, req, res, next) => {
     res.status(500).json({ message: 'Something went wrong!' });
 });
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+// For Vercel deployment
+if (process.env.NODE_ENV === 'production') {
+    // Export the app for Vercel
+    module.exports = app;
+} else {
+    // Start the server locally
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
+}

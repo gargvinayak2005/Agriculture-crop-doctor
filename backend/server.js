@@ -21,7 +21,7 @@ app.use((req, res, next) => {
     res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, x-auth-token');
     res.header('Access-Control-Allow-Credentials', 'true');
-    
+
     if (req.method === 'OPTIONS') {
         console.log('OPTIONS preflight request');
         res.sendStatus(200);
@@ -54,8 +54,8 @@ app.get('/', (req, res) => {
 // Debug route to check CORS
 app.get('/api/debug', (req, res) => {
     console.log('Debug route accessed');
-    res.json({ 
-        message: 'Debug route working', 
+    res.json({
+        message: 'Debug route working',
         origin: req.headers.origin,
         timestamp: new Date().toISOString()
     });
@@ -64,8 +64,10 @@ app.get('/api/debug', (req, res) => {
 // Debug middleware to log all requests
 app.use((req, res, next) => {
     console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
-    console.log('Headers:', req.headers);
-    console.log('Body:', req.body);
+    console.log('Headers:', JSON.stringify(req.headers, null, 2));
+    console.log('Body:', JSON.stringify(req.body, null, 2));
+    console.log('Query:', JSON.stringify(req.query, null, 2));
+    console.log('Params:', JSON.stringify(req.params, null, 2));
     next();
 });
 

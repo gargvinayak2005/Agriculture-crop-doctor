@@ -14,28 +14,9 @@ console.log('JWT_SECRET:', process.env.JWT_SECRET ? 'Set' : 'Not set');
 console.log('Using PORT:', PORT);
 
 // Middleware
+// Temporary permissive CORS for debugging
 app.use(cors({
-    origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin) return callback(null, true);
-        
-        // Allow localhost for development
-        if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
-            return callback(null, true);
-        }
-        
-        // Allow any Vercel URL for your project
-        if (origin.includes('agriculture-crop-doctor') && origin.includes('vercel.app')) {
-            return callback(null, true);
-        }
-        
-        // Allow your specific backend URL
-        if (origin.includes('agriculture-crop-doctor-git-main-vinayaks-projects-adeb1c9e.vercel.app')) {
-            return callback(null, true);
-        }
-        
-        callback(new Error('Not allowed by CORS'));
-    },
+    origin: true, // Allow all origins temporarily
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token']

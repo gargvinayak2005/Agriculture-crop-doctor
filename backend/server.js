@@ -15,11 +15,27 @@ console.log('Using PORT:', PORT);
 
 // Middleware
 app.use(cors({
-    origin: [
-        'http://localhost:4000', // Local development
-        'https://agriculture-crop-doctor-67vxidvlm-vinayaks-projects-adeb1c9e.vercel.app', // Your frontend Vercel URL
-        'https://agriculture-crop-doctor-git-main-vinayaks-projects-adeb1c9e.vercel.app' // Alternative frontend URL
-    ],
+    origin: function (origin, callback) {
+        // Allow requests with no origin (like mobile apps or curl requests)
+        if (!origin) return callback(null, true);
+        
+        // Allow localhost for development
+        if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
+            return callback(null, true);
+        }
+        
+        // Allow any Vercel URL for your project
+        if (origin.includes('agriculture-crop-doctor') && origin.includes('vercel.app')) {
+            return callback(null, true);
+        }
+        
+        // Allow your specific backend URL
+        if (origin.includes('agriculture-crop-doctor-git-main-vinayaks-projects-adeb1c9e.vercel.app')) {
+            return callback(null, true);
+        }
+        
+        callback(new Error('Not allowed by CORS'));
+    },
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token']

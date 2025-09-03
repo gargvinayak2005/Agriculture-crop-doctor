@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:8000/api';
+import { API_BASE_URL, API_HEALTH_URL } from '../config/api';
 
 export interface User {
   id: string;
@@ -125,7 +125,7 @@ class ApiService {
   // Check if server is running
   async healthCheck(): Promise<{ message: string }> {
     try {
-      const response = await fetch('http://localhost:8000/');
+      const response = await fetch(`${API_HEALTH_URL}/`);
       if (response.ok) {
         return await response.json();
       }

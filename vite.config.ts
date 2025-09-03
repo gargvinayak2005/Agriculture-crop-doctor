@@ -11,4 +11,9 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['lucide-react'],
   },
+  define: {
+    // Make environment variables available to the client
+    'import.meta.env.VITE_API_BASE_URL': JSON.stringify(process.env.VITE_API_BASE_URL),
+    'import.meta.env.VITE_API_HEALTH_URL': JSON.stringify(process.env.VITE_API_HEALTH_URL),
+  },
 });

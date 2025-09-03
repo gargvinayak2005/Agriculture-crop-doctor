@@ -195,6 +195,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin, current
             <button
               onClick={onClose}
               className="text-green-100 hover:text-white transition-colors"
+              title="Close modal"
+              aria-label="Close modal"
             >
               <X className="w-6 h-6" />
             </button>
@@ -339,6 +341,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin, current
               <button
                 type="button"
                 className="text-sm text-green-600 hover:text-green-700 transition-colors"
+                title="Forgot password"
+                aria-label="Forgot password"
               >
                 {t.forgotPassword}
               </button>
@@ -351,6 +355,8 @@ const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onLogin, current
               type="button"
               onClick={() => setIsLoginMode(!isLoginMode)}
               className="text-sm text-gray-600 hover:text-green-600 transition-colors"
+              title={isLoginMode ? "Switch to sign up" : "Switch to login"}
+              aria-label={isLoginMode ? "Switch to sign up" : "Switch to login"}
             >
               {isLoginMode ? t.switchToSignup : t.switchToLogin}
             </button>

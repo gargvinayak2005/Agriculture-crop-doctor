@@ -40,7 +40,7 @@ function App() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [activeTab, setActiveTab] = useState('diagnose');
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
+  const [, setAudioBlob] = useState<Blob | null>(null);
   const [user, setUser] = useState<UserData | null>(null);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
@@ -267,6 +267,8 @@ function App() {
                 value={currentLanguage}
                 onChange={(e) => setCurrentLanguage(e.target.value as 'en' | 'hi' | 'kn')}
                 className="bg-green-500 text-white rounded-lg px-3 py-1 text-sm border-0 focus:ring-2 focus:ring-green-300"
+                title="Select language"
+                aria-label="Select language"
               >
                 {Object.entries(languages).map(([code, lang]) => (
                   <option key={code} value={code} className="bg-green-600">
@@ -288,6 +290,8 @@ function App() {
                   <button
                     onClick={handleLogout}
                     className="p-2 text-green-100 hover:text-white hover:bg-green-500 rounded-lg transition-colors"
+                    title="Logout"
+                    aria-label="Logout"
                   >
                     <LogOut className="w-5 h-5" />
                   </button>
@@ -397,6 +401,8 @@ function App() {
                   accept="image/*"
                   onChange={handleImageUpload}
                   className="hidden"
+                  title="Upload crop image"
+                  aria-label="Upload crop image"
                 />
                 
                 {/* Action Buttons */}
@@ -483,6 +489,8 @@ function App() {
                   <button
                     onClick={() => speakText(`${diseaseResult.disease} detected with ${diseaseResult.confidence}% confidence`)}
                     className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
+                    title="Speak result"
+                    aria-label="Speak disease detection result"
                   >
                     <Volume2 className="w-5 h-5" />
                   </button>
@@ -507,6 +515,8 @@ function App() {
                         <div 
                           className="bg-green-600 h-2 rounded-full transition-all duration-1000"
                           style={{ width: `${diseaseResult.confidence}%` }}
+                          role="progressbar"
+                          aria-label={`${diseaseResult.confidence}% confidence`}
                         ></div>
                       </div>
                     </div>

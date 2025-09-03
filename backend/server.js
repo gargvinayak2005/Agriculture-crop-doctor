@@ -14,7 +14,16 @@ console.log('JWT_SECRET:', process.env.JWT_SECRET ? 'Set' : 'Not set');
 console.log('Using PORT:', PORT);
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: [
+        'http://localhost:4000', // Local development
+        'https://agriculture-crop-doctor-67vxidvlm-vinayaks-projects-adeb1c9e.vercel.app', // Your frontend Vercel URL
+        'https://agriculture-crop-doctor-git-main-vinayaks-projects-adeb1c9e.vercel.app' // Alternative frontend URL
+    ],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token']
+}));
 app.use(express.json());
 
 // MongoDB Connection

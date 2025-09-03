@@ -10,8 +10,8 @@ export const API_CONFIG = {
   
   // Production (replace with your actual Vercel URL)
   production: {
-    baseUrl: 'https://agriculture-crop-doctor-git-main-vinayaks-projects-adeb1c9e.vercel.app/api', // Your actual Vercel URL
-    healthUrl: 'https://agriculture-crop-doctor-git-main-vinayaks-projects-adeb1c9e.vercel.app',   // Your actual Vercel URL
+    baseUrl: 'https://agriculture-crop-doctor-git-main-vinayaks-projects-adeb1c9e.vercel.app/api', // Your backend Vercel URL
+    healthUrl: 'https://agriculture-crop-doctor-git-main-vinayaks-projects-adeb1c9e.vercel.app',   // Your backend Vercel URL
   },
   
   // Get current environment

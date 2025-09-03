@@ -14,13 +14,21 @@ console.log('JWT_SECRET:', process.env.JWT_SECRET ? 'Set' : 'Not set');
 console.log('Using PORT:', PORT);
 
 // Middleware
-// Temporary permissive CORS for debugging
-app.use(cors({
-    origin: true, // Allow all origins temporarily
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token']
-}));
+// Explicit CORS configuration
+app.use((req, res, next) => {
+    console.log('CORS middleware - Origin:', req.headers.origin);
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, x-auth-token');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    
+    if (req.method === 'OPTIONS') {
+        console.log('OPTIONS preflight request');
+        res.sendStatus(200);
+    } else {
+        next();
+    }
+});
 app.use(express.json());
 
 // MongoDB Connection

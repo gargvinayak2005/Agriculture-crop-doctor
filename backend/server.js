@@ -53,9 +53,23 @@ app.get('/api/debug', (req, res) => {
     });
 });
 
+// Debug middleware to log all requests
+app.use((req, res, next) => {
+    console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
+    console.log('Headers:', req.headers);
+    console.log('Body:', req.body);
+    next();
+});
+
 // API routes
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/users', require('./routes/users'));
+
+// Catch-all route for unmatched API requests
+app.use('/api/*', (req, res) => {
+    console.log(`Unmatched API route: ${req.method} ${req.url}`);
+    res.status(404).json({ message: 'API endpoint not found' });
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {

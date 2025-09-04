@@ -10,15 +10,24 @@ export const API_CONFIG = {
   
   // Production (replace with your actual Vercel URL)
   production: {
-    baseUrl: 'https://agriculture-crop-doctor-git-main-vinayaks-projects-adeb1c9e.vercel.app/api', // Your backend Vercel URL
-    healthUrl: 'https://agriculture-crop-doctor-git-main-vinayaks-projects-adeb1c9e.vercel.app',   // Your backend Vercel URL
+    baseUrl: 'https://backend-80yvtzf3w-vinayaks-projects-adeb1c9e.vercel.app/api', // Your backend Vercel URL
+    healthUrl: 'https://backend-80yvtzf3w-vinayaks-projects-adeb1c9e.vercel.app',   // Your backend Vercel URL
   },
   
   // Get current environment
   getCurrentEnv: () => {
     // Check if we're in development (localhost) or production
     if (typeof window !== 'undefined') {
-      return window.location.hostname === 'localhost' ? 'development' : 'production';
+      const hostname = window.location.hostname;
+      if (hostname === 'localhost' || hostname === '127.0.0.1' || hostname.includes('localhost')) {
+        return 'development';
+      }
+      // Add your deployed frontend domain here to detect production correctly
+      if (hostname === 'agriculture-crop-doctor-1nd2z2c5j-vinayaks-projects-adeb1c9e.vercel.app') {
+        return 'production';
+      }
+      // Default to production for other hostnames
+      return 'production';
     }
     return 'development';
   },

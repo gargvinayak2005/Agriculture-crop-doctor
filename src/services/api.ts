@@ -73,6 +73,9 @@ class ApiService {
       headers: this.getHeaders(),
     };
 
+    console.log('API_BASE_URL:', API_BASE_URL);
+    console.log('API_HEALTH_URL:', API_HEALTH_URL);
+    console.log('Current window.location:', typeof window !== 'undefined' ? window.location.href : 'SSR');
     console.log('API Request:', { url, config });
 
     try {

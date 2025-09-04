@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react';
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/Agriculture-crop-doctor-2/',
+  base: '/Agriculture-crop-doctor/',
   server: {
     port: 4000,
     host: true

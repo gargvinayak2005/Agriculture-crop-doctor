@@ -13,29 +13,26 @@ console.log('MONGODB_URI:', process.env.MONGODB_URI ? 'Set' : 'Not set');
 console.log('JWT_SECRET:', process.env.JWT_SECRET ? 'Set' : 'Not set');
 console.log('Using PORT:', PORT);
 
+// CORS configuration allowing only known frontends
+const allowedOrigins = [
+    'http://localhost:5173',
+    'https://agriculture-crop-doctor-69fm8ml2g-vinayaks-projects-adeb1c9e.vercel.app',
+];
+
 app.use(cors({
-    origin: '*',
+    origin: (origin, callback) => {
+        if (!origin || allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
+        return callback(new Error('Not allowed by CORS'));
+    },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization', 'x-auth-token'],
     credentials: true,
 }));
 
-// Middleware
-// Explicit CORS configuration
-app.use((req, res, next) => {
-    console.log('CORS middleware - Origin:', req.headers.origin);
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, x-auth-token');
-    res.header('Access-Control-Allow-Credentials', 'true');
-
-    if (req.method === 'OPTIONS') {
-        console.log('OPTIONS preflight request');
-        res.sendStatus(200);
-    } else {
-        next();
-    }
-});
+// Handle preflight requests
+app.options('*', cors());
 app.use(express.json());
 
 // MongoDB Connection

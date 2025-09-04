@@ -13,6 +13,13 @@ console.log('MONGODB_URI:', process.env.MONGODB_URI ? 'Set' : 'Not set');
 console.log('JWT_SECRET:', process.env.JWT_SECRET ? 'Set' : 'Not set');
 console.log('Using PORT:', PORT);
 
+app.use(cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization', 'x-auth-token'],
+    credentials: true,
+}));
+
 // Middleware
 // Explicit CORS configuration
 app.use((req, res, next) => {
@@ -34,10 +41,7 @@ app.use(express.json());
 // MongoDB Connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://gargvinayak2005_db_user:7Y9yCXtBoJgovHAj@cluster0.duq1lrv.mongodb.net/';
 
-mongoose.connect(MONGODB_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-})
+mongoose.connect(MONGODB_URI)
 .then(() => {
     console.log('Connected to MongoDB successfully!');
 })
@@ -61,13 +65,9 @@ app.get('/api/debug', (req, res) => {
     });
 });
 
-// Debug middleware to log all requests
+// Debug middleware to log all requests (simplified)
 app.use((req, res, next) => {
     console.log(`${new Date().toISOString()} - ${req.method} ${req.url}`);
-    console.log('Headers:', JSON.stringify(req.headers, null, 2));
-    console.log('Body:', JSON.stringify(req.body, null, 2));
-    console.log('Query:', JSON.stringify(req.query, null, 2));
-    console.log('Params:', JSON.stringify(req.params, null, 2));
     next();
 });
 
@@ -88,11 +88,10 @@ app.use((err, req, res, next) => {
 });
 
 // For Vercel deployment
-if (process.env.NODE_ENV === 'production') {
-    // Export the app for Vercel
-    module.exports = app;
-} else {
-    // Start the server locally
+module.exports = app;
+
+// Start the server locally if not in production
+if (process.env.NODE_ENV !== 'production') {
     app.listen(PORT, () => {
         console.log(`Server is running on port ${PORT}`);
     });

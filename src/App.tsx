@@ -35,7 +35,8 @@ interface UserData {
 function App() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isRecording, setIsRecording] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState<'en' | 'hi' | 'kn'>('en');
+  type LanguageCode = 'en' | 'hi' | 'kn';
+  const [currentLanguage, setCurrentLanguage] = useState<LanguageCode>('en');
   const [diseaseResult, setDiseaseResult] = useState<DiseaseResult | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [activeTab, setActiveTab] = useState('diagnose');
@@ -45,13 +46,35 @@ function App() {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
 
-  const languages = {
+  const languages: Record<LanguageCode, { name: string; flag: string }> = {
     en: { name: 'English', flag: '🇺🇸' },
     hi: { name: 'हिंदी', flag: '🇮🇳' },
     kn: { name: 'ಕನ್ನಡ', flag: '🇮🇳' }
   };
 
-  const translations = {
+  const translations: Record<LanguageCode, {
+    title: string;
+    subtitle: string;
+    diagnose: string;
+    weather: string;
+    schedule: string;
+    uploadImage: string;
+    takePhoto: string;
+    startRecording: string;
+    stopRecording: string;
+    analyzing: string;
+    diseaseDetected: string;
+    confidence: string;
+    symptoms: string;
+    treatment: string;
+    pesticides: string;
+    weatherToday: string;
+    temperature: string;
+    humidity: string;
+    rainfall: string;
+    fertilizerSchedule: string;
+    location: string;
+  }> = {
     en: {
       title: 'AI Crop Doctor',
       subtitle: 'Voice + Image Agriculture Assistant',
@@ -265,7 +288,7 @@ function App() {
               <Languages className="w-5 h-5" />
               <select
                 value={currentLanguage}
-                onChange={(e) => setCurrentLanguage(e.target.value as 'en' | 'hi' | 'kn')}
+                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setCurrentLanguage(e.target.value as LanguageCode)}
                 className="bg-green-500 text-white rounded-lg px-3 py-1 text-sm border-0 focus:ring-2 focus:ring-green-300"
                 title="Select language"
                 aria-label="Select language"
@@ -511,20 +534,18 @@ function App() {
                         <span className="text-sm text-gray-600">{t.confidence}</span>
                         <span className="text-lg font-semibold text-green-600">{diseaseResult.confidence}%</span>
                       </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div 
-                          className="bg-green-600 h-2 rounded-full transition-all duration-1000"
-                          style={{ width: `${diseaseResult.confidence}%` }}
-                          role="progressbar"
-                          aria-label={`${diseaseResult.confidence}% confidence`}
-                        ></div>
-                      </div>
+                      <progress
+                        className="w-full h-2 [&::-webkit-progress-bar]:bg-gray-200 [&::-webkit-progress-bar]:rounded-full [&::-webkit-progress-value]:bg-green-600 [&::-webkit-progress-value]:rounded-full"
+                        max={100}
+                        value={diseaseResult.confidence}
+                        aria-label={`${diseaseResult.confidence}% confidence`}
+                      />
                     </div>
                     
                     <div>
                       <h4 className="font-medium text-gray-800 mb-2">{t.symptoms}</h4>
                       <ul className="space-y-1">
-                        {diseaseResult.symptoms.map((symptom, index) => (
+                        {diseaseResult.symptoms.map((symptom: string, index: number) => (
                           <li key={index} className="text-sm text-gray-600 flex items-start">
                             <span className="w-2 h-2 bg-red-400 rounded-full mt-1.5 mr-2 flex-shrink-0"></span>
                             {symptom}
@@ -539,7 +560,7 @@ function App() {
                     <div>
                       <h4 className="font-medium text-gray-800 mb-2">{t.treatment}</h4>
                       <ul className="space-y-1">
-                        {diseaseResult.treatment.map((step, index) => (
+                        {diseaseResult.treatment.map((step: string, index: number) => (
                           <li key={index} className="text-sm text-gray-600 flex items-start">
                             <span className="w-5 h-5 bg-green-100 text-green-600 rounded-full text-xs flex items-center justify-center mt-0.5 mr-2 flex-shrink-0">
                               {index + 1}
@@ -553,7 +574,7 @@ function App() {
                     <div>
                       <h4 className="font-medium text-gray-800 mb-2">{t.pesticides}</h4>
                       <div className="space-y-2">
-                        {diseaseResult.pesticides.map((pesticide, index) => (
+                        {diseaseResult.pesticides.map((pesticide: string, index: number) => (
                           <div key={index} className="bg-blue-50 border border-blue-200 rounded-lg p-3">
                             <span className="text-sm font-medium text-blue-800">{pesticide}</span>
                           </div>

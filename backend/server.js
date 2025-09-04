@@ -4,7 +4,7 @@ const cors = require('cors');
 require('dotenv').config({ path: './.env' });
 
 const app = express();
-const PORT = 8000; // Hardcoded for now to get it working
+const PORT = process.env.PORT || 8000;
 
 // Debug: Log environment variables
 console.log('Environment variables:');

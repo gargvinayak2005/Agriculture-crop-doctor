@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, LogOut, Settings, Edit3, Save, X } from 'lucide-react';
+import { User, LogOut, Edit3, Save, X } from 'lucide-react';
 
 interface UserData {
   id: string;
@@ -103,6 +103,8 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, onLogout, currentLangua
             <button
               onClick={() => setIsEditing(true)}
               className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+              title={t.editProfile}
+              aria-label={t.editProfile}
             >
               <Edit3 className="w-5 h-5" />
             </button>
@@ -111,12 +113,16 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, onLogout, currentLangua
               <button
                 onClick={handleSave}
                 className="p-2 text-green-600 hover:bg-green-100 rounded-lg transition-colors"
+                title={t.saveChanges}
+                aria-label={t.saveChanges}
               >
                 <Save className="w-5 h-5" />
               </button>
               <button
                 onClick={handleCancel}
                 className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
+                title={t.cancel}
+                aria-label={t.cancel}
               >
                 <X className="w-5 h-5" />
               </button>
@@ -125,6 +131,8 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, onLogout, currentLangua
           <button
             onClick={onLogout}
             className="p-2 text-red-600 hover:bg-red-100 rounded-lg transition-colors"
+            title={t.logout}
+            aria-label={t.logout}
           >
             <LogOut className="w-5 h-5" />
           </button>
@@ -153,6 +161,8 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, onLogout, currentLangua
                 value={editData.name}
                 onChange={(e) => setEditData({...editData, name: e.target.value})}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                aria-label={t.name}
+                placeholder={t.name}
               />
             ) : (
               <p className="text-gray-800">{user.name}</p>
@@ -173,6 +183,8 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, onLogout, currentLangua
                   value={editData.phone}
                   onChange={(e) => setEditData({...editData, phone: e.target.value})}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  aria-label={t.phone}
+                  placeholder={t.phone}
                 />
               ) : (
                 <p className="text-gray-800">{user.phone || 'Not provided'}</p>
@@ -189,6 +201,8 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, onLogout, currentLangua
                   value={editData.location}
                   onChange={(e) => setEditData({...editData, location: e.target.value})}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  aria-label={t.location}
+                  placeholder={t.location}
                 />
               ) : (
                 <p className="text-gray-800">{user.location || 'Not provided'}</p>
@@ -205,6 +219,8 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, onLogout, currentLangua
                   value={editData.farmSize}
                   onChange={(e) => setEditData({...editData, farmSize: e.target.value})}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  aria-label={t.farmSize}
+                  placeholder={t.farmSize}
                 />
               ) : (
                 <p className="text-gray-800">{user.farmSize ? `${user.farmSize} acres` : 'Not provided'}</p>
@@ -221,6 +237,8 @@ const UserProfile: React.FC<UserProfileProps> = ({ user, onLogout, currentLangua
                   value={editData.cropTypes}
                   onChange={(e) => setEditData({...editData, cropTypes: e.target.value})}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                  aria-label={t.cropTypes}
+                  placeholder={t.cropTypes}
                 />
               ) : (
                 <p className="text-gray-800">{user.cropTypes || 'Not provided'}</p>
